@@ -1,7 +1,7 @@
 let Db = require('../connect.db')
 
 exports.postQuote = async (req, res) => {
-    const wealthDb = await Db.connectDb()
+    const wealthDb = await Db 
 
     const {userID, loginStr} = req.params
     let dbLoginStr = await (await wealthDb).collection(userID).find({name: "bodyPay"}).map(s => s.loginString).toArray()
@@ -34,7 +34,7 @@ exports.postQuote = async (req, res) => {
 
 exports.getQuote = async (req, res) => {
     const {userID} = req.params
-    const wealthDb = await Db.connectDb()
+    const wealthDb = await Db 
 
 try {
  
