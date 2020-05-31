@@ -28,7 +28,7 @@ loginString: {type: String},
 loginState: {type: String},
 fsKeys: {type: Array},
 number: {type: Number},
- 
+ quotes: {type: Array}
 })
 
 module.exports = wealthSchema

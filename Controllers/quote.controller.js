@@ -1,50 +1,53 @@
-let Db = require('../connect.db')
+let {createUserModel, giveModel} = require('../Mongo/wealthModel')
 
 exports.postQuote = async (req, res) => {
-    const wealthDb = await Db 
-
-    const {userID, loginStr} = req.params
-    let dbLoginStr = await (await wealthDb).collection(userID).find({name: "bodyPay"}).map(s => s.loginString).toArray()
-    if(dbLoginStr[0] === loginStr){
-        try {
-            // let userP = await wealthDb.collection(userID).find({name: 'FS'}).up
-           // b
-           
-           (await wealthDb).collection(userID).updateOne({"_id": 0}, {$set: {quotes: req.body}}, (err, ans) => {
-               if(err) {
-                   throw err
-               }
-               else {
-   
-                   res.json({success: 'success'})
-               }
-           })
-   
-          
-            
-       } 
-       catch (error) {
-          console.log(error.message) 
-       }
-    }
-   else {
-       console.log('not log')
-       res.json({error: 'you are not logged in'})}
+     const {userID, loginStr} = req.params
+      
+    giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
+        if(!err) {
+           let dbLoginString = resDoc[0].loginString;
+           if(dbLoginString === loginStr){
+                try {
+                   giveModel(userID).updateOne({"_id": 0}, {$set: {quotes: req.body}}, (err, ans) => {
+                    if(err) {
+                       res.json({error: 'A technical error occured, pls refresh page'})
+                    }
+                    else {
+        
+                        res.json({success: 'success'})
+                    }
+                })
+                } 
+                catch (error) {
+                    
+                }
+           } 
+          else {
+            console.log('not log')
+            res.json({error: 'you are not logged in'})
+           }   
+          }
+    })
+ 
 }
 
 exports.getQuote = async (req, res) => {
     const {userID} = req.params
-    const wealthDb = await Db 
-
+ 
 try {
  
-    let ans =  await wealthDb.collection(userID).find({_id: 0}).toArray()
+    giveModel(userID).find({_id: 0}, (err, resDoc) => {
+        if(!err) {
+             if(resDoc.length > 0) {
+                 const{quotes} = resDoc[0]
+                res.send(quotes)
+            }
+        }
+        
+    })
 
-    const{quotes} = ans[0]
     
-//  console.log(quotes)
-    res.send(quotes)
-} 
+ } 
 
 catch (error) {
     res.send(error.message)

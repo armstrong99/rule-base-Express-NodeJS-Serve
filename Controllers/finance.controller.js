@@ -24,50 +24,53 @@ let {createUserModel, giveModel} = require('../Mongo/wealthModel')
                         giveModel(userID).find({name:'FS'}, (err, resDoc) => {
                             if(!err) {
                            let fsItems = resDoc.map(s => s.fsKeys)
-                                let allMoney = []
-                           const callback = (err, resDoc) => {
-                               if(!err) {
-                                    allMoney.push(resDoc[0].money)
-                                    if(allMoney.length === fsItems[0].length) {
-                                        let totalMoney = allMoney.reduce((prev, curr) => prev + curr)
-                                     let nReqBody = req.body.map(s => {
-                                            let unitMon = totalMoney * s.rPerc / 100
-                                            s.money = 0
-                                            let newMon = s.money + unitMon
-                                            s.money = newMon
-                                            s.diff = unitMon
-                                            s.day = new Date().toDateString().substring(0,4).trim()
-                                            s.dayNo = Number( new Date().toDateString().substring(7,10).trim() )
-                                            s.month = new Date().toDateString().substring(4,7).trim()
-                                            s.year = Number( new Date().toDateString().substring(10,15).trim() )
-                                            s.timeTrans = Date().substring(15, 21).trim()
-                                            s.purpose = "Change my Fin. structure"
-                                            s.recivBol = true
-                                            s.spendBol = false
-                                            s.updated = true
-                                
-                                            return s
-                                           })
-                         giveModel(userID).insertMany(nReqBody, (err, resDoc) => {
-                             if(!err) {
-                                giveModel(userID).updateOne({"_id": 0}, {$set: {number: nReqBody.length, fsKeys: nReqBody.map(s => s.budg)}}, (err, ans) => {
-                                    if(err) {console.log(err)}
-                                    else  {
-                                         res.json({save: true})
-                                        }
-                                })   
-                             } else {
-                                console.log(err.message)
-                                return res.json({error: 'duplicate'})                                }
-           
-                         })
+                                 
+                           
+                           let emptyArr = [];
+                           for (let i = 0; i < fsItems[0].length; i++) {
+                            giveModel(userID).find({budg: fsItems[0][i]}).sort({_id: -1}).limit(1).exec((err, resDoc) => {
+                                emptyArr.push(...resDoc)
+                                if(i ===  fsItems[0].length - 1) {
+   
+                                    let totalMoney = emptyArr.map(s => s.money).reduce((prev, curr) => prev + curr)
+                                    let nReqBody = req.body.map(s => {
+                                           let unitMon = totalMoney * s.rPerc / 100
+                                           s.money = 0
+                                           let newMon = s.money + unitMon
+                                           s.money = newMon
+                                           s.diff = unitMon
+                                           s.day = new Date().toDateString().substring(0,4).trim()
+                                           s.dayNo = Number( new Date().toDateString().substring(7,10).trim() )
+                                           s.month = new Date().toDateString().substring(4,7).trim()
+                                           s.year = Number( new Date().toDateString().substring(10,15).trim() )
+                                           s.timeTrans = Date().substring(15, 21).trim()
+                                           s.purpose = "Change my Fin. structure"
+                                           s.recivBol = true
+                                           s.spendBol = false
+                                           s.updated = true
+                               
+                                           return s
+                                          })
+                        giveModel(userID).insertMany(nReqBody, (err, resDoc) => {
+                            if(!err) {
+                               giveModel(userID).updateOne({"_id": 0}, {$set: {number: nReqBody.length, fsKeys: nReqBody.map(s => s.budg)}}, (err, ans) => {
+                                   if(err) {console.log(err)}
+                                   else  {
+                                        res.json({save: true})
+                                       }
+                               })   
+                            } else {
+                               console.log(err.message)
+                               return res.json({error: 'duplicate'})   
+                                                         }
+          
+                        })
 
-                                    }
-                               }
+                                    
+                                }
+                            })
                            }
-                               fsItems[0].map((fsI_Arr, i) => {
-                                giveModel(userID).find({budg: fsI_Arr}, callback)
-                               })
+                            
 
 
                                

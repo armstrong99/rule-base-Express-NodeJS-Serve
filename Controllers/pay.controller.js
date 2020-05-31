@@ -9,286 +9,156 @@ let {createUserModel, giveModel} = require('../Mongo/wealthModel')
 exports.confirmPayment = async (req, res, next) => {
     
      const { refID, userID } = req.params;
-
-     let bodyPay = {
-                            isVerified: false,
-                            amount:  30000 / 100,
-                            confirmID: randomString({length: 120}),
-                            name: 'bodyPay',
-                             datePaid: new Date().toDateString(),
-                            refID: refID,
-                            password:false,
-                            _id: 7777746365353  
-                        };
-     console.log(refID, 'id', userID);
-     try {
-        giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
-            if(err) {
-                console.log(err)
-            } else {
-                console.log(resDoc.length)
-                if(resDoc.length < 1) {
-                    // let wealthModel = mongoose.model(userID, wealthSchema)
-                    // let userPay = new wealthModel(bodyPay)
-                    let userPay = createUserModel(userID, bodyPay)
-                    userPay.save().then(done => {
-                        giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
-                            if(!err) {
-                              let confirmIDB = resDoc.map(s => s.confirmID)
-                                  console.log(confirmIDB)
-                              let transporter = nodemailer.createTransport({
-                                host: 'smtp.gmail.com',
-                                port: 465,
-                                secure: true,
-                                auth: {
-                                  user: 'wealthmeservices@gmail.com',
-                                  pass: `iamwealthyarmstrong2020`
-                                }
-                              });
-                let linkRedir = `http://localhost:3000/Iamwealthy/emaillogin/${confirmIDB[0]}`
-                let mailOptions = {
-                    from: 'wealthmeservices@gmail.com',
-                    to: userID,
-                    subject: 'Welcome to wealth',
-                    
-                    html: `<article style="width: 80%;
-                    height: 50%;
-                    margin-top: 0;
-                    background-color: #69696966;
-                    margin-left: auto;
-                    margin-right: auto;
-                    padding: 2rem;">
-                            <h1 style='text-align: center; color:limegreen; padding:1rem; background:black'>Iamwealthy</h1>
-                            <p>Hi, Your Payment was successful, pls use the link below to confirm your account </p>
-                            <a href=${linkRedir} target="_blank">Confirm account here</a>
-                        </article>`
-                  };
-
-                  transporter.sendMail(mailOptions, function(error, info){
-                    if (error) {
-                        console.log(error)
-                        res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
-                     }
-                      else{
-                            res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
-                        }
-                     
-                  });
-
-            //  res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
-             
-            } else console.log('couldnt find bodyPay')
-        })
-
-                    }).catch(e => console.log(e.message))
-                } 
-                else {
-                    giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
-                        if(!err) {
-                            let confirmIDB = resDoc.map(s => s.confirmID)
-                            let transporter = nodemailer.createTransport({
-                                host: 'smtp.gmail.com',
-                                port: 465,
-                                secure: true,
-                                auth: {
-                                  user: 'wealthmeservices@gmail.com',
-                                  pass: `iamwealthyarmstrong2020`
-                                }
-                              });
-                let linkRedir = `http://localhost:3000/Iamwealthy/emaillogin/${confirmIDB[0]}`
-                let mailOptions = {
-                    from: 'wealthmeservices@gmail.com',
-                    to: userID,
-                    subject: 'Welcome to wealth',
-                    
-                    html: `<article style="width: 80%;
-                    height: 50%;
-                    margin-top: 0;
-                    background-color: #69696966;
-                    margin-left: auto;
-                    margin-right: auto;
-                    padding: 2rem;">
-                            <h1 style='text-align: center; color:limegreen; padding:1rem; background:black'>Iamwealthy</h1>
-                            <p>Hi, Your Payment was successful, pls use the link below to confirm your account </p>
-                            <a href=${linkRedir} target="_blank">Confirm account here</a>
-                        </article>`
-                  };
-
-                transporter.sendMail(mailOptions, function(error, info){
-                    if (error) {
-                        console.log(error)
-                        res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
-                     }
-                      else{
-                            res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
-                        }
-                     
-                  });
-                            
-
-                        }
-                    })      
-                }
-            }
-     });  
  
-
-
-                 
-               } 
-       catch (error) {
-           console.log(error.message)
-           res.json({err: error.message})
-       }
-//   setTimeout(() => {
+  setTimeout(() => {
      
-//     paystack.transaction.verify(refID.toString(), async (error, body) => {
+    paystack.transaction.verify(refID.toString(), async (error, body) => {
         
-//         if(body) {
-//            let msg = body['data']['status'];
-//                if(msg === 'success') {
-//                 let bodyPay = {
-//                     isVerified: false,
-//                     amount: body['data']['amount'] / 100,
-//                     confirmID: randomString({length: 120}),
-//                     name: 'bodyPay',
-//                      datePaid: new Date().toDateString(),
-//                     refID: refID,
-//                     password:false,
-//                     _id: randomString({length: 60})
-//                 };
-//                 try {
-//                     giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
-//                         if(err) {
-//                             console.log(err)
-//                         } else {
-//                             console.log(resDoc.length)
-//                             if(resDoc.length < 1) {
-//                                 // let wealthModel = mongoose.model(userID, wealthSchema)
-//                                 // let userPay = new wealthModel(bodyPay)
-//                                 let userPay = createUserModel(userID, bodyPay)
-//                                 userPay.save().then(done => {
-//                                     giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
-//                                         if(!err) {
-//                                           let confirmIDB = resDoc.map(s => s.confirmID)
-//                                               console.log(confirmIDB)
-//                                           let transporter = nodemailer.createTransport({
-//                                             host: 'smtp.gmail.com',
-//                                             port: 465,
-//                                             secure: true,
-//                                             auth: {
-//                                               user: 'wealthmeservices@gmail.com',
-//                                               pass: `iamwealthyarmstrong2020`
-//                                             }
-//                                           });
-//                             let linkRedir = `http://localhost:3000/Iamwealthy/emaillogin/${confirmIDB[0]}`
-//                             let mailOptions = {
-//                                 from: 'wealthmeservices@gmail.com',
-//                                 to: userID,
-//                                 subject: 'Welcome to wealth',
+        if(body) {
+           let msg = body['data']['status'];
+               if(msg === 'success') {
+                let bodyPay = {
+                    isVerified: false,
+                    amount: body['data']['amount'] / 100,
+                    confirmID: randomString({length: 120}),
+                    name: 'bodyPay',
+                     datePaid: new Date().toDateString(),
+                    refID: refID,
+                    password:false,
+                    _id: randomString({length: 60})
+                };
+                try {
+                    giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
+                        if(err) {
+                            console.log(err)
+                        } else {
+                            console.log(resDoc.length)
+                            if(resDoc.length < 1) {
+                                // let wealthModel = mongoose.model(userID, wealthSchema)
+                                // let userPay = new wealthModel(bodyPay)
+                                let userPay = createUserModel(userID, bodyPay)
+                                userPay.save().then(done => {
+                                    giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
+                                        if(!err) {
+                                          let confirmIDB = resDoc.map(s => s.confirmID)
+                                              console.log(confirmIDB)
+                                          let transporter = nodemailer.createTransport({
+                                            host: 'smtp.gmail.com',
+                                            port: 465,
+                                            secure: true,
+                                            auth: {
+                                              user: 'wealthmeservices@gmail.com',
+                                              pass: `iamwealthyarmstrong2020`
+                                            }
+                                          });
+                            let linkRedir = `http://localhost:3000/Iamwealthy/emaillogin/${confirmIDB[0]}`
+                            let mailOptions = {
+                                from: 'wealthmeservices@gmail.com',
+                                to: userID,
+                                subject: 'Welcome to wealth',
                                 
-//                                 html: `<article style="width: 80%;
-//                                 height: 50%;
-//                                 margin-top: 0;
-//                                 background-color: #69696966;
-//                                 margin-left: auto;
-//                                 margin-right: auto;
-//                                 padding: 2rem;">
-//                                         <h1 style='text-align: center; color:limegreen; padding:1rem; background:black'>Iamwealthy</h1>
-//                                         <p>Hi, Your Payment was successful, pls use the link below to confirm your account </p>
-//                                         <a href=${linkRedir} target="_blank">Confirm account here</a>
-//                                     </article>`
-//                               };
+                                html: `<article style="width: 80%;
+                                height: 50%;
+                                margin-top: 0;
+                                background-color: #69696966;
+                                margin-left: auto;
+                                margin-right: auto;
+                                padding: 2rem;">
+                                        <h1 style='text-align: center; color:limegreen; padding:1rem; background:black'>Iamwealthy</h1>
+                                        <p>Hi, Your Payment was successful, pls use the link below to confirm your account </p>
+                                        <a href=${linkRedir} target="_blank">Confirm account here</a>
+                                    </article>`
+                              };
             
-//                               transporter.sendMail(mailOptions, function(error, info){
-//                                 if (error) {
-//                                     console.log(error)
-//                                     res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
-//                                  }
-//                                   else{
-//                                         res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
-//                                     }
+                              transporter.sendMail(mailOptions, function(error, info){
+                                if (error) {
+                                    console.log(error)
+                                    res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
+                                 }
+                                  else{
+                                        res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
+                                    }
                                  
-//                               });
+                              });
             
                           
-//                         } else console.log('couldnt find bodyPay')
-//                     })
+                        } else console.log('couldnt find bodyPay')
+                    })
             
-//                                 }).catch(e => console.log(e.message))
-//                             } 
-//                             else {
-//                                 giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
-//                                     if(!err) {
-//                                         let confirmIDB = resDoc.map(s => s.confirmID)
-//                                         let transporter = nodemailer.createTransport({
-//                                             host: 'smtp.gmail.com',
-//                                             port: 465,
-//                                             secure: true,
-//                                             auth: {
-//                                               user: 'wealthmeservices@gmail.com',
-//                                               pass: `iamwealthyarmstrong2020`
-//                                             }
-//                                           });
-//                             let linkRedir = `http://localhost:3000/Iamwealthy/emaillogin/${confirmIDB[0]}`
-//                             let mailOptions = {
-//                                 from: 'wealthmeservices@gmail.com',
-//                                 to: userID,
-//                                 subject: 'Welcome to wealth',
+                                }).catch(e => console.log(e.message))
+                            } 
+                            else {
+                                giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
+                                    if(!err) {
+                                        let confirmIDB = resDoc.map(s => s.confirmID)
+                                        let transporter = nodemailer.createTransport({
+                                            host: 'smtp.gmail.com',
+                                            port: 465,
+                                            secure: true,
+                                            auth: {
+                                              user: 'wealthmeservices@gmail.com',
+                                              pass: `iamwealthyarmstrong2020`
+                                            }
+                                          });
+                            let linkRedir = `http://localhost:3000/Iamwealthy/emaillogin/${confirmIDB[0]}`
+                            let mailOptions = {
+                                from: 'wealthmeservices@gmail.com',
+                                to: userID,
+                                subject: 'Welcome to wealth',
                                 
-//                                 html: `<article style="width: 80%;
-//                                 height: 50%;
-//                                 margin-top: 0;
-//                                 background-color: #69696966;
-//                                 margin-left: auto;
-//                                 margin-right: auto;
-//                                 padding: 2rem;">
-//                                         <h1 style='text-align: center; color:limegreen; padding:1rem; background:black'>Iamwealthy</h1>
-//                                         <p>Hi, Your Payment was successful, pls use the link below to confirm your account </p>
-//                                         <a href=${linkRedir} target="_blank">Confirm account here</a>
-//                                     </article>`
-//                               };
+                                html: `<article style="width: 80%;
+                                height: 50%;
+                                margin-top: 0;
+                                background-color: #69696966;
+                                margin-left: auto;
+                                margin-right: auto;
+                                padding: 2rem;">
+                                        <h1 style='text-align: center; color:limegreen; padding:1rem; background:black'>Iamwealthy</h1>
+                                        <p>Hi, Your Payment was successful, pls use the link below to confirm your account </p>
+                                        <a href=${linkRedir} target="_blank">Confirm account here</a>
+                                    </article>`
+                              };
             
-//                             transporter.sendMail(mailOptions, function(error, info){
-//                                 if (error) {
-//                                     console.log(error)
-//                                     res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
-//                                  }
-//                                   else{
-//                                         res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
-//                                     }
+                            transporter.sendMail(mailOptions, function(error, info){
+                                if (error) {
+                                    console.log(error)
+                                    res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
+                                 }
+                                  else{
+                                        res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
+                                    }
                                  
-//                               });
+                              });
                                         
             
-//                                     }
-//                                 })      
-//                             }
-//                         }
-//                  });  
+                                    }
+                                })      
+                            }
+                        }
+                 });  
              
             
             
                              
-//                            } 
-//                    catch (error) {
-//                        console.log(error.message)
-//                        res.json({err: error.message})
-//                    }
+                           } 
+                   catch (error) {
+                       console.log(error.message)
+                       res.json({err: error.message})
+                   }
                 
-//                }
-//         }
-//         else {
-//             res.json({error: error.message});
+               }
+        }
+        else {
+            res.json({error: error.message});
             
-//             return console.log(error.message)
+            return console.log(error.message)
        
-//         }
+        }
        
           
        
-//               }); 
-//  }, 1200);
+              }); 
+ }, 1200);
 
 };
 

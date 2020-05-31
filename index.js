@@ -43,7 +43,7 @@ app.get('/testModels/:userID', (req, res) => {
      
     
 })
-// app.use(quoRouter)
+  app.use(quoRouter)
  app.use(finRouter)
 app.use(authRouter)
 
