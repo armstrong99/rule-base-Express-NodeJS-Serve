@@ -11,8 +11,8 @@ let financeControllers = require('../Controllers/finance.controller')
 //  finRouter.post('/finance/:userID/changeFs', financeControllers.changeFS)
  finRouter.get('/finance/:userID/:loginStr', financeControllers.getFinance)
  finRouter.post('/finance/:userID/modify/:loginStr', financeControllers.modifyDb)
- finRouter.get('/finance/:userID/getweekly', financeControllers.weekly)
- finRouter.get('/finance/:userID/getMonthly', financeControllers.monthly)
- finRouter.get('/finance/:userID/getDaily', financeControllers.daily)
+ finRouter.get('/finance/:userID/getweekly/week', financeControllers.weekly)
+ finRouter.get('/finance/:userID/getMonthly/month', financeControllers.monthly)
+ finRouter.get('/finance/:userID/getDaily/day', financeControllers.daily)
 
 module.exports = finRouter

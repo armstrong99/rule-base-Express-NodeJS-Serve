@@ -1,0 +1,38 @@
+{
+  "name": "iamwealthy_server",
+  "version": "1.0.0",
+  "description": "Official server for company",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/armstrong99/Iamwealthy_Server.git"
+  },
+  "keywords": [
+    "server",
+    "official",
+    "heroku",
+    "deploy"
+  ],
+  "author": "NC ARMSTRONG_CEO",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/armstrong99/Iamwealthy_Server/issues"
+  },
+  "homepage": "https://github.com/armstrong99/Iamwealthy_Server#readme",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "bcrypt": "^4.0.1",
+    "cors": "^2.8.5",
+    "crypto-random-string": "^3.2.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.7",
+    "mongoose": "^5.9.16",
+    "nodemailer": "^6.4.6",
+    "paystack": "^2.0.1"
+  }
+}
