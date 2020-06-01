@@ -1,6 +1,5 @@
 const Db = require('../connect.db')
-const wealthDb = Db
-const bcrypt = require('bcrypt');
+ const bcrypt = require('bcrypt');
 const saltRounds = 12;
 let randomString = require('crypto-random-string')
 let {giveModel} = require('../Mongo/wealthModel')
@@ -18,8 +17,7 @@ let {refID} = req.params
 
 giveModel(email).find({name: "bodyPay"}, (err, resDoc) => {
 
-    if(err) { console.log(err)
-        res.json({error: 'A technical errors occured pls retry, thanks. '})
+    if(err) { res.json({error: 'A technical errors occured pls retry, thanks. '})
     }
 
     else {
@@ -30,7 +28,7 @@ giveModel(email).find({name: "bodyPay"}, (err, resDoc) => {
        }  
        else {
         let confirmIDB = resDoc.map(s => s.confirmID)
-        console.log( confirmIDB[0] )
+        // console.log( confirmIDB[0] )
         if(refID === confirmIDB[0]) {
             bcrypt.hash(password, saltRounds, async (err, hash) => {
                 if(!err) {
@@ -47,13 +45,7 @@ giveModel(email).find({name: "bodyPay"}, (err, resDoc) => {
                         } else res.json({error: 'A technical errors occured pls retry, thanks. '}) 
 
                     })
-                //   let [{loginString}] = await ((await wealthDb).collection(email).find({name:'bodyPay'}).toArray());
-    
-                    // // console.log(loginString);
-    
-                    // (await wealthDb).collection(email).updateOne({name:'bodyPay'}, {$set: {confirmID: ''}});
-    
-                    //   res.json({success: 'account Success', lStr: loginString});
+              
              
                 }
             
@@ -69,7 +61,7 @@ giveModel(email).find({name: "bodyPay"}, (err, resDoc) => {
 }
  
 catch (error) {
-console.log(error)
+// console.log(error)
 res.json({error: error})    
 }
 
@@ -119,7 +111,7 @@ exports.login_Old_User = async (req, res, next) => {
     
 }
  catch (err) {
-   console.log(err.message) 
+//    console.log(err.message) 
 }
 
 
@@ -133,7 +125,7 @@ exports.logOut = async (req, res) => {
       res.json({log: 'success'})
 } 
 catch (error) {
-    console.log(error.message)
+    // console.log(error.message)
     res.json({log: 'failed'})
     }
     

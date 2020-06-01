@@ -23,7 +23,7 @@ exports.postQuote = async (req, res) => {
                 }
            } 
           else {
-            console.log('not log')
+            // console.log('not log')
             res.json({error: 'you are not logged in'})
            }   
           }
@@ -51,7 +51,7 @@ try {
 
 catch (error) {
     res.send(error.message)
-    console.log(error)
+    // console.log(error)
 }
 
 }

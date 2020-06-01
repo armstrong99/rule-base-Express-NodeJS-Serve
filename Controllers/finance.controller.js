@@ -54,13 +54,13 @@ let {createUserModel, giveModel} = require('../Mongo/wealthModel')
                         giveModel(userID).insertMany(nReqBody, (err, resDoc) => {
                             if(!err) {
                                giveModel(userID).updateOne({"_id": 0}, {$set: {number: nReqBody.length, fsKeys: nReqBody.map(s => s.budg)}}, (err, ans) => {
-                                   if(err) {console.log(err)}
+                                   if(err) { }
                                    else  {
                                         res.json({save: true})
                                        }
                                })   
                             } else {
-                               console.log(err.message)
+                            //    console.log(err.message)
                                return res.json({error: 'duplicate'})   
                                                          }
           
@@ -134,7 +134,7 @@ exports.getFinance = async (req, res) => {
                             })
                         } 
                         catch (error) {
-                            console.log(e.message)
+                            // console.log(e.message)
                 if(e.message === "Cannot read property 'map' of undefined") {
         
                     return res.json({e: 'no entry'})
@@ -146,54 +146,7 @@ exports.getFinance = async (req, res) => {
             res.json({error: 'A technical error occured or you may not be logged in properly,  pls refresh page  or try login in'})
         }
     })
-        // let dbLoginStr = await (await wealthDb).collection(userID).find({name: "bodyPay"}).map(s => s.loginString).toArray()
-    //    console.log('dbS', dbLoginStr)
-        // if(dbLoginStr[0] === loginStr) {
-    
-        //     try{
-                
-        //         let userP = await wealthDb.collection(userID).find({name:'FS'}).map(s => s.fsKeys).toArray()
-        
-        //        let moneyLeft = await userP[0].map(fsItem =>{
-        //          return wealthDb.collection(userID).find({budg: fsItem, updated: true}).sort({_id: -1}).limit(1).toArray()}
-        //         )
-        //             let m_ans = [];
-               
-        //             for (let i = 0; i < moneyLeft.length; i++) {
-                     
-        //              let ans = await moneyLeft[i]
-        //              if(ans[0] !== undefined) {
-        //                  m_ans.push(ans[0])
-        //              }
-        //             }
-                    
-        //             res.json(m_ans)
-                 
-            
-        //     //     let wealthDb = await Db.connectDb()
-        //     //     let userP = await wealthDb.collection(userID).find({name: 'FS'}).sort({name: -1}).limit(1).toArray()
-           
-        //     //   const {number} = userP[0]
-                
-        //     //  let cursor =  wealthDb.collection(userID).find({budg: {$exists: true}}).sort({_id: -1}).limit(number).toArray()
-        
-        //     //  let mRes = await cursor
-        
-             
-        //     //   res.json(mRes) 
-         
-        //     }
-        
-        //     catch(e) {
-        //         console.log(e.message)
-        //         if(e.message === "Cannot read property 'map' of undefined") {
-        
-        //             return res.json({e: 'no entry'})
-        //         } 
-        
-        //     }
-        // }
-        //  else res.json({err: 'you are not logged in'})
+     
     }, 1000);
 }
 

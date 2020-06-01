@@ -16,7 +16,8 @@ exports.confirmPayment = async (req, res, next) => {
         
         if(body) {
            let msg = body['data']['status'];
-               if(msg === 'success') {
+            
+                if(msg === 'success') {
                 let bodyPay = {
                     isVerified: false,
                     amount: body['data']['amount'] / 100,
@@ -25,14 +26,14 @@ exports.confirmPayment = async (req, res, next) => {
                      datePaid: new Date().toDateString(),
                     refID: refID,
                     password:false,
-                    _id: randomString({length: 60})
+                    _id: 79000000000000,
                 };
                 try {
                     giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
                         if(err) {
-                            console.log(err)
+                            // console.log(err)
                         } else {
-                            console.log(resDoc.length)
+                            // console.log(resDoc.length)
                             if(resDoc.length < 1) {
                                 // let wealthModel = mongoose.model(userID, wealthSchema)
                                 // let userPay = new wealthModel(bodyPay)
@@ -41,7 +42,7 @@ exports.confirmPayment = async (req, res, next) => {
                                     giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
                                         if(!err) {
                                           let confirmIDB = resDoc.map(s => s.confirmID)
-                                              console.log(confirmIDB)
+                                            //   console.log(confirmIDB)
                                           let transporter = nodemailer.createTransport({
                                             host: 'smtp.gmail.com',
                                             port: 465,
@@ -72,7 +73,7 @@ exports.confirmPayment = async (req, res, next) => {
             
                               transporter.sendMail(mailOptions, function(error, info){
                                 if (error) {
-                                    console.log(error)
+                                    // console.log(error)
                                     res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
                                  }
                                   else{
@@ -82,10 +83,10 @@ exports.confirmPayment = async (req, res, next) => {
                               });
             
                           
-                        } else console.log('couldnt find bodyPay')
+                        } else ''
                     })
             
-                                }).catch(e => console.log(e.message))
+                                }).catch(e => e)
                             } 
                             else {
                                 giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
@@ -121,7 +122,7 @@ exports.confirmPayment = async (req, res, next) => {
             
                             transporter.sendMail(mailOptions, function(error, info){
                                 if (error) {
-                                    console.log(error)
+                                    // console.log(error)
                                     res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
                                  }
                                   else{
@@ -142,7 +143,7 @@ exports.confirmPayment = async (req, res, next) => {
                              
                            } 
                    catch (error) {
-                       console.log(error.message)
+                    //    console.log(error.message)
                        res.json({err: error.message})
                    }
                 
@@ -151,7 +152,7 @@ exports.confirmPayment = async (req, res, next) => {
         else {
             res.json({error: error.message});
             
-            return console.log(error.message)
+            // return console.log(error.message)
        
         }
        
@@ -167,8 +168,7 @@ exports.confirmAccount = async (req, res, next) => {
         const {userID, bodyPay} = req.params;
  
          giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
-             if(err) {console.log(err); 
-                 res.json({error: 'We couldnt locate your payment details, pls refresh the page or contact our support email'})}
+             if(err) {res.json({error: 'We couldnt locate your payment details, pls refresh the page or contact our support email'})}
              else {
                  
                  if(resDoc.length < 1) {
@@ -182,27 +182,12 @@ exports.confirmAccount = async (req, res, next) => {
                  }
              }
          }) 
-        // let confirmIDB = (await wealthDb).collection(userID).find({name: "bodyPay"}).map(s => s.confirmID).toArray();
         
-        //   console.log({bodyPay: bodyPay, confirmIDB: confirmIDB, id: userID + 's'})
-    //       if(bodyPay === confirmIDB[0]) {
-        
-    //     //  (await wealthDb).collection(userID).updateOne({"name":"bodyPay"}, {$set: {isVerified: true, dateConfirmed:  new Date().toDateString()}});
-            
-    //     //     //   console.log('success')
-
-    //     //     //  res.json({confirm: 'success', refI: confirmIDB[0]});
-
-
-    //    }
-        //  else {
-        //      console.log('error confirm');
-        // }
         
     }
     
     catch (error) {
-        console.log(error);
+        // console.log(error);
         res.json({error: 'Account cant be confirmed at this time, pls refresh the page'});
     }
 
