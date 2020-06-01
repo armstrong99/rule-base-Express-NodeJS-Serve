@@ -34,5 +34,8 @@
     "mongoose": "^5.9.16",
     "nodemailer": "^6.4.6",
     "paystack": "^2.0.1"
+  },
+  "engines": {
+    "node": "12.14.1"
   }
 }
