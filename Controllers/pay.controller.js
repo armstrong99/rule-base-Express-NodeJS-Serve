@@ -74,10 +74,10 @@ exports.confirmPayment = async (req, res, next) => {
                               transporter.sendMail(mailOptions, function(error, info){
                                 if (error) {
                                     // console.log(error)
-                                    res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
+                                    res.json({link: `https://iamwealthy.herokuapp.com/confirmStatus/${userID}/${confirmIDB[0]}`})
                                  }
                                   else{
-                                        res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
+                                        res.json({link: `https://iamwealthy.herokuapp.com/confirmStatus/${userID}/${confirmIDB[0]}`})
                                     }
                                  
                               });
@@ -123,10 +123,10 @@ exports.confirmPayment = async (req, res, next) => {
                             transporter.sendMail(mailOptions, function(error, info){
                                 if (error) {
                                     // console.log(error)
-                                    res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
+                                    res.json({link: `https://iamwealthy.herokuapp.com/confirmStatus/${userID}/${confirmIDB[0]}`})
                                  }
                                   else{
-                                        res.json({link: `http://localhost:3001/confirmStatus/${userID}/${confirmIDB[0]}`})
+                                        res.json({link: `https://iamwealthy.herokuapp.com/confirmStatus/${userID}/${confirmIDB[0]}`})
                                     }
                                  
                               });
