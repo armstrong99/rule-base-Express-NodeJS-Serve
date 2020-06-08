@@ -3,11 +3,11 @@ let mongoose = require ("mongoose");
 const xpS = require('./index') //this is the express server
 
 // const { MongoClient } = require("mongodb");
-const url = process.env.DB_KEY
+
+const url = 'mongodb://localhost:27017/myapp'
 
 // const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true  });
  
-// const dbName = "Iamwealthy";
                       
  async function run() {
     try {

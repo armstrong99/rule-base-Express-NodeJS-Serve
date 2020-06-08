@@ -96,8 +96,7 @@ exports.getFinance = async (req, res) => {
         
         let{userID, loginStr} = req.params
             
-        let wealthDb = await Db
-        
+         
         //  console.log(loginStr, 'me str')
 
     giveModel(userID).find({name: "bodyPay"}, (err, resDoc) => {
