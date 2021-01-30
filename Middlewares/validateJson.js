@@ -3,6 +3,7 @@ const Joi = require("joi");
 const validateSchema = require("../helperFlutterAPI/validateField");
 
 //ensure that the req has a rule, conditions and data field exists
+
 // .pattern(/(([a-z]*[.]+[a-z]*){1,2})/, /[a-z]*/)
 
 const Schema = Joi.object({
