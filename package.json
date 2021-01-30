@@ -1,15 +1,15 @@
 {
-  "name": "iamwealthy_server",
+  "name": "flut-jb",
   "version": "1.0.0",
-  "description": "Official server for company",
+  "description": "Official",
   "main": "connect.db.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon connect.db.js"
+    "start": "node connect.db.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/armstrong99/Iamwealthy_Server.git"
+    "url": "git+https://https://github.com/armstrong99/reporule.git"
   },
   "keywords": [
     "server",
@@ -19,7 +19,6 @@
   ],
   "author": "NC ARMSTRONG_CEO",
   "license": "ISC",
-  "bugs": {},
   "homepage": "",
   "dependencies": {
     "assert": "^2.0.0",
