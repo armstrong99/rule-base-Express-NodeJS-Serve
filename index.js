@@ -12,7 +12,4 @@ app.use(job);
 
 let port = process.env.PORT || 3020;
 
-module.exports = server = () =>
-  app.listen(port, () => console.log("Server is listening on " + port));
-
-// 09037225785
+module.exports = server = () => app.listen(port, () => port);
