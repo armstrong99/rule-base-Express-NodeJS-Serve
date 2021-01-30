@@ -5,7 +5,7 @@
   "main": "connect.db.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node connect.db.js"
+    "start": "nodemon connect.db.js"
   },
   "repository": {
     "type": "git",
@@ -20,20 +20,21 @@
   "author": "NC ARMSTRONG_CEO",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/armstrong99/Iamwealthy_Server/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/armstrong99/Iamwealthy_Server#readme",
+  "homepage": "",
   "dependencies": {
     "assert": "^2.0.0",
+    "axios": "^0.21.1",
     "bcrypt": "^4.0.1",
     "cors": "^2.8.5",
     "crypto-random-string": "^3.2.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "joi": "^17.3.0",
     "mongodb": "^3.5.7",
     "mongoose": "^5.9.16",
-    "nodemailer": "^6.4.6",
-    "paystack": "^2.0.1"
+    "nodemailer": "^6.4.6"
   },
   "engines": {
     "node": "12.14.1"

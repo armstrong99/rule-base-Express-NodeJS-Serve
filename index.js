@@ -1,24 +1,18 @@
-const express = require( 'express')
-const cors = require('cors')
-const app = express()
-const finRouter = require('./Routes/finance.route')
-const Payment = require('./Routes/payment.route')
-const quoRouter = require('./Routes/Quote.route')
-const authRouter = require('./Routes/auth.route')
- 
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use(cors())
-app.use(Payment)
+const express = require("express");
+const cors = require("cors");
+const app = express();
 
- 
-app.use(quoRouter)
-app.use(finRouter)
-app.use(authRouter)
+const job = require("./Routes/job.flutter.js");
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
-let port = process.env.PORT || 3001;
+app.use(job);
 
-module.exports = server = () => app.listen(port, () => console.log('Server is listening on ' + port))
+let port = process.env.PORT || 3020;
 
- 
+module.exports = server = () =>
+  app.listen(port, () => console.log("Server is listening on " + port));
+
+// 09037225785
