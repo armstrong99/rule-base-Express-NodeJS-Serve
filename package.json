@@ -19,9 +19,7 @@
   ],
   "author": "NC ARMSTRONG_CEO",
   "license": "ISC",
-  "bugs": {
-    "url": ""
-  },
+  "bugs": {},
   "homepage": "",
   "dependencies": {
     "assert": "^2.0.0",
